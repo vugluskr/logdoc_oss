@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Objects;
 
 import static ru.gang.logdoc.structs.utils.Tools.isEmpty;
-import static ru.gang.logdoc.structs.utils.Tools.notNull;
 
 
 public class FieldMatch extends AMatcher implements Condition {

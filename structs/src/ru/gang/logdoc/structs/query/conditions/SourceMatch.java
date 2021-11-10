@@ -1,6 +1,6 @@
 package ru.gang.logdoc.structs.query.conditions;
 
-import ru.gang.logdoc.LogDoc;
+import ru.gang.logdoc.sdk.LogDoc;
 import ru.gang.logdoc.structs.enums.Match;
 import ru.gang.logdoc.structs.query.Condition;
 

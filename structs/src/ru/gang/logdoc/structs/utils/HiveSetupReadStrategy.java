@@ -1,13 +1,12 @@
 package ru.gang.logdoc.structs.utils;
 
+import ru.gang.logdoc.sdk.ConnectionType;
+import ru.gang.logdoc.sdk.SinkId;
+import ru.gang.logdoc.sdk.enums.Proto;
 import ru.gang.logdoc.structs.dto.HiveConfig;
 import ru.gang.logdoc.structs.dto.HiveId;
-import ru.gang.logdoc.structs.dto.SinkId;
-import ru.gang.logdoc.structs.dto.SinkPort;
-import ru.gang.logdoc.structs.enums.Sink;
 
 import java.io.EOFException;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
 public class HiveSetupReadStrategy implements Consumer<Byte> {
@@ -43,8 +42,7 @@ public class HiveSetupReadStrategy implements Consumer<Byte> {
     }
 
     private Consumer<Byte> readChild(final int max) {
-        final SinkPort sinkPort = new SinkPort();
-        final Consumer<Void> finisher = unused -> {
+        final Consumer<SinkId> finisher = sinkPort -> {
             config.add(sinkPort);
             if (config.size() == max)
                 successConsumer.accept(config);
@@ -52,31 +50,10 @@ public class HiveSetupReadStrategy implements Consumer<Byte> {
                 strategy = readChild(max);
         };
 
-        return type ->
-                strategy = new StreamTools.IntReader(port2 -> {
-                    sinkPort.id = new SinkId(port2, Sink.values()[type]);
-
-                    if (sinkPort.id.type == Sink.SYS_TCP || sinkPort.id.type == Sink.SYS_UDP) {
-                        strategy = new StreamTools.UtfReader(locale -> {
-                            sinkPort.locale = locale;
-
-                            if (sinkPort.id.type == Sink.SYS_TCP)
-                                strategy = new StreamTools.ShortReader(dSize -> {
-                                    sinkPort.delimiters = new byte[dSize];
-                                    final AtomicInteger idx = new AtomicInteger(0);
-
-                                    strategy = b3 -> {
-                                        sinkPort.delimiters[idx.getAndIncrement()] = b3;
-
-                                        if (idx.get() == dSize)
-                                            finisher.accept(null);
-                                    };
-                                });
-                            else
-                                finisher.accept(null);
-                        });
-                    } else
-                        finisher.accept(null);
-                });
+        return new StreamTools.UtfReader(name ->
+                strategy = protoByte ->
+                        strategy = new StreamTools.UtfReader(typeName ->
+                                strategy = new StreamTools.IntReader(port ->
+                                        finisher.accept(new SinkId(port, name, new ConnectionType(Proto.values()[protoByte], typeName))))));
     }
 }

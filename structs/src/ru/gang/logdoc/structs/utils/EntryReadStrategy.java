@@ -1,8 +1,8 @@
 package ru.gang.logdoc.structs.utils;
 
-import ru.gang.logdoc.LogDoc;
+import ru.gang.logdoc.sdk.LogDoc;
 
-import java.io.*;
+import java.io.EOFException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;

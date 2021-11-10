@@ -1,4 +1,4 @@
-package ru.gang.logdoc.structs.dto;
+package ru.gang.logdoc.sdk;
 
 
 import java.util.Map;
@@ -14,7 +14,6 @@ public class LogEntryDto {
     public String ip;
     public String id;
     public String source;
-    public String listenerId;
     public String level;
     public String entry;
     public Map<String, String> fields;

@@ -1,4 +1,4 @@
-package ru.gang.logdoc;
+package ru.gang.logdoc.sdk;
 
 import java.util.Arrays;
 import java.util.Collections;

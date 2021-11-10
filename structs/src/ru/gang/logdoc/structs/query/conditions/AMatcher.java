@@ -2,10 +2,8 @@ package ru.gang.logdoc.structs.query.conditions;
 
 
 import ru.gang.logdoc.structs.enums.Match;
-import ru.gang.logdoc.structs.utils.Tools;
 
 import java.util.Objects;
-import java.util.Optional;
 import java.util.regex.Pattern;
 
 public abstract class AMatcher {

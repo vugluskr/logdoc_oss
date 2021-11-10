@@ -4,12 +4,12 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.pattern.ThrowableProxyConverter;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.AppenderBase;
-import ru.gang.logdoc.LogDoc;
 import ru.gang.logdoc.flaps.Sourcer;
 import ru.gang.logdoc.flaps.impl.PostSourcer;
 import ru.gang.logdoc.flaps.impl.PreSourcer;
 import ru.gang.logdoc.flaps.impl.SimpleSourcer;
 import ru.gang.logdoc.flaps.impl.SourcerBoth;
+import ru.gang.logdoc.sdk.LogDoc;
 import ru.gang.logdoc.structs.utils.EntryWriteStrategy;
 
 import java.lang.management.ManagementFactory;

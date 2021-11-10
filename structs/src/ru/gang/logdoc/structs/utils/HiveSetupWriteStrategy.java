@@ -1,8 +1,7 @@
 package ru.gang.logdoc.structs.utils;
 
+import ru.gang.logdoc.sdk.SinkId;
 import ru.gang.logdoc.structs.dto.HiveConfig;
-import ru.gang.logdoc.structs.dto.SinkPort;
-import ru.gang.logdoc.structs.enums.Sink;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -32,19 +31,11 @@ public class HiveSetupWriteStrategy implements Function<HiveConfig, byte[]> {
             writeUtf(config.id.ip, os);
             writeShort((short) config.size(), os);
 
-            for (final SinkPort port : config) {
-                os.write(port.id.type.ordinal());
-                writeInt(port.id.port, os);
-
-                if (port.id.type == Sink.SYS_TCP || port.id.type == Sink.SYS_UDP) {
-                    writeUtf(port.locale, os);
-
-                    if (port.id.type == Sink.SYS_TCP) {
-                        os.write(port.delimiters != null ? port.delimiters.length : 0);
-                        if (port.delimiters != null)
-                            os.write(port.delimiters);
-                    }
-                }
+            for (final SinkId port : config) {
+                writeUtf(port.name, os);
+                os.write(port.type.proto.ordinal());
+                writeUtf(port.type.name, os);
+                writeInt(port.port, os);
             }
 
             endRecord(os);

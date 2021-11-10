@@ -1,9 +1,11 @@
 package ru.gang.logdoc.structs.dto;
 
+import ru.gang.logdoc.sdk.SinkId;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
-public final class HiveConfig extends ArrayList<SinkPort> {
+public final class HiveConfig extends ArrayList<SinkId> {
     public HiveId id;
 
     @Override
@@ -16,8 +18,8 @@ public final class HiveConfig extends ArrayList<SinkPort> {
         if (!id.equals(sinkPorts.id) || size() != ((HiveConfig) o).size())
             return false;
 
-        for (final SinkPort port : this)
-            if (!((HiveConfig) o).contains(port))
+        for (final SinkId sink : this)
+            if (!((HiveConfig) o).contains(sink))
                 return false;
 
         return true;

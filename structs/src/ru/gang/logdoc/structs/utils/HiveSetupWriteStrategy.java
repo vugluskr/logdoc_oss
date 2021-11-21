@@ -1,17 +1,27 @@
 package ru.gang.logdoc.structs.utils;
 
 import ru.gang.logdoc.sdk.SinkId;
+import ru.gang.logdoc.structs.Recording;
 import ru.gang.logdoc.structs.dto.HiveConfig;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 
-import static ru.gang.logdoc.structs.utils.StreamTools.NumberWriters.writeInt;
-import static ru.gang.logdoc.structs.utils.StreamTools.NumberWriters.writeShort;
-import static ru.gang.logdoc.structs.utils.StreamTools.Writers.writeUtf;
+import static ru.gang.logdoc.structs.utils.StreamTools.*;
 
-public class HiveSetupWriteStrategy implements Function<HiveConfig, byte[]> {
+public class HiveSetupWriteStrategy implements Function<HiveConfig, byte[]>, BiConsumer<HiveConfig, OutputStream>, Recording {
+    @Override
+    public void accept(final HiveConfig sinkIds, final OutputStream os) {
+        try {
+            os.write(writeData(sinkIds));
+        } catch (final IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public byte[] apply(final HiveConfig config) {
         try {

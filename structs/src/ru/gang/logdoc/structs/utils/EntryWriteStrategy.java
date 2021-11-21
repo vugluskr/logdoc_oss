@@ -1,13 +1,25 @@
 package ru.gang.logdoc.structs.utils;
 
+import ru.gang.logdoc.structs.Recording;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 
-public class EntryWriteStrategy implements Function<Map<String, String>, byte[]> {
+public class EntryWriteStrategy implements Function<Map<String, String>, byte[]>, BiConsumer<Map<String, String>, OutputStream>, Recording {
+    @Override
+    public void accept(final Map<String, String> entry, final OutputStream outputStream) {
+        try {
+            outputStream.write(writeMap(entry));
+        } catch (final Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public byte[] apply(final Map<String, String> map) {
         try {

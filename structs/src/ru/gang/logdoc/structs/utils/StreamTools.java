@@ -6,47 +6,40 @@ import java.nio.charset.StandardCharsets;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
-import static ru.gang.logdoc.structs.utils.StreamTools.NumberWriters.writeInt;
-import static ru.gang.logdoc.structs.utils.StreamTools.NumberWriters.writeShort;
-
 /**
  * @author Denis Danilin | denis@danilin.name
  * 18.06.2021 16:00
  * netty-backend ☭ sweat and blood
  */
 public interface StreamTools {
-    class NumberWriters {
-        static void writeShort(final short sh, final OutputStream os) throws IOException {
-            os.write((sh >>> 8) & 0xff);
-            os.write((sh) & 0xff);
-        }
-
-        static void writeInt(final int in, final OutputStream os) throws IOException {
-            os.write((in >>> 24) & 0xff);
-            os.write((in >>> 16) & 0xff);
-            os.write((in >>> 8) & 0xff);
-            os.write((in) & 0xff);
-        }
-
-        static void writeLong(final long in, final OutputStream os) throws IOException {
-            os.write((byte) (in >>> 56));
-            os.write((byte) (in >>> 48));
-            os.write((byte) (in >>> 40));
-            os.write((byte) (in >>> 32));
-            os.write((byte) (in >>> 24));
-            os.write((byte) (in >>> 16));
-            os.write((byte) (in >>> 8));
-            os.write((byte) (in));
-        }
+    static void writeShort(final short sh, final OutputStream os) throws IOException {
+        os.write((sh >>> 8) & 0xff);
+        os.write((sh) & 0xff);
     }
 
-    class Writers {
-        static void writeUtf(final String s, final OutputStream os) throws IOException {
-            final byte[] data = Tools.notNull(s).getBytes(StandardCharsets.UTF_8);
+    static void writeInt(final int in, final OutputStream os) throws IOException {
+        os.write((in >>> 24) & 0xff);
+        os.write((in >>> 16) & 0xff);
+        os.write((in >>> 8) & 0xff);
+        os.write((in) & 0xff);
+    }
 
-            writeShort((short) data.length, os);
-            os.write(data);
-        }
+    static void writeLong(final long in, final OutputStream os) throws IOException {
+        os.write((byte) (in >>> 56));
+        os.write((byte) (in >>> 48));
+        os.write((byte) (in >>> 40));
+        os.write((byte) (in >>> 32));
+        os.write((byte) (in >>> 24));
+        os.write((byte) (in >>> 16));
+        os.write((byte) (in >>> 8));
+        os.write((byte) (in));
+    }
+
+    static void writeUtf(final String s, final OutputStream os) throws IOException {
+        final byte[] data = Tools.notNull(s).getBytes(StandardCharsets.UTF_8);
+
+        writeShort((short) data.length, os);
+        os.write(data);
     }
 
     class IntReader implements Consumer<Byte> {
